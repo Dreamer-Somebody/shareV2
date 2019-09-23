@@ -1,0 +1,97 @@
+﻿<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <style>
+    .codeBoard {
+        position: absolute;
+        right: 100px;
+        top: 30px;
+        max-width: 600px;
+        max-height: 600px;
+        overflow: scroll;
+    }
+
+    #output {
+        width: 1000px;
+        margin: 30px 10px 0px 100px;
+        border: 2px solid #aaa;
+        overflow-y: scroll;
+    }
+
+    code {
+        font-family: consolas;
+        font-size: 18px;
+    }
+    </style>
+    <link rel="stylesheet" href="../css/codeStyle/zenburn.css">
+</head>
+
+<body>
+    <div style="margin: 0 auto;width:500px">
+        <p>选择文件：</p>
+        <input type="file" id="file" onclick=inputFile()>
+        <pre id="load" style="font-size: 18px;font-family: consolas;"></pre>
+    </div>
+    <div id="output"></div>
+    <div class="codeBoard">
+        <pre><code></code></pre>
+    </div>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/highlight.js"></script>
+    <script>
+    hljs.initHighlightingOnLoad();
+    </script>
+    <script src="EventUtil.js"></script>
+    <script type="text/javascript">
+    var inputFile = function() {
+        var load = document.getElementById("load"),
+            output = document.getElementById("output"),
+            filelist = document.getElementById("file"),
+            reader = new FileReader(),
+            type = "default";
+        EventUtil.addHandler(filelist, "change", function(event) {
+            var files = EventUtil.getTarget(event).files;
+            if (/image/.test(files[0].type)) {
+                reader.readAsDataURL(files[0]);
+                type = "image";
+            } else if (/html/.test(files[0].type)) {
+                reader.readAsText(files[0]);
+                type = "html";
+            } else {
+                reader.readAsText(files[0]);
+                type = "text";
+            }
+
+            reader.onerror = function() {
+                output.innerHTML = "出错了, 出错码是:" + reader.error.code;
+            };
+            reader.onprogress = function(event) {
+                if (event.lengthComputable)
+                    load.innerHTML = "加载字节数：" + event.loaded + "/" + event.total;
+            };
+            reader.onload = function() {
+                var html = "";
+                switch (type) {
+                    case "image":
+                        html = "<image src=\"" + reader.result + "\">";
+                        break;
+                    default:
+                        html = reader.result;
+                        break;
+                }
+                output.innerHTML = html;
+                if (type == "html") {
+                    $(output).html(html);
+                    $('.codeBoard code').text(reader.result);
+                    $('pre code').each(function(i, block) {
+                        hljs.highlightBlock(block);
+                    });
+                }
+            };
+        });
+    };
+    </script>
+</body>
+
+</html>

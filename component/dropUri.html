@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>仿Google拖动</title>
+    <style>
+    .disnone {
+        display: none;
+    }
+
+    .area {
+        padding: 40px;
+        width: 90%;
+        height: 500px;
+        background-color: #64beb6;
+        margin: 50px;
+    }
+
+    .bookmark {
+        border-radius: 12px;
+        z-index: 10;
+        background-color: #fff;
+        box-shadow: 0 11px 18px 0 rgba(32, 48, 60, .05);
+        width: 286px;
+        position: relative;
+        height: 400px;
+        margin: 0 30px 30px 0;
+        display: inline-block;
+        border: 1px solid #807b7b;
+    }
+
+    .urls {
+    	width: 1000px;
+        margin-left: 55px;
+        margin-top: 30px;
+    }
+
+    .urls a {
+        margin-right: 80px;
+        font-size: 25px;
+    }
+
+    iframe {
+        min-height: 360px;
+        width: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .title {
+        border-top: 1px solid #acacac;
+        width: 80%;
+        margin-left: 18px;
+        overflow: hidden;
+    }
+
+    .title span {
+        display: inline-block;
+        max-width: 100px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="urls">
+        <a href="https://m.baidu.com/" draggable="true" ondragstart="drag(event)">百度</a>
+        <a href="http://m.qq.com/" draggable="true" ondragstart="drag(event)">腾讯</a>
+        <a href="http://h.xiami.com/index.html" draggable="true" ondragstart="drag(event)">虾米</a>
+    </div>
+    <div class="area" ondrop="drop(event)" ondragover="allowDrop(event)">
+    </div>
+    <div class="disnone attach">
+        <div class="bookmark">
+            <iframe src="" frameborder="0"></iframe>
+            <div class="title">网页地址：<span></span></div>
+        </div>
+    </div>
+</body>
+<script src="../js/jquery.js"></script>
+<script>
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    var dt = ev.dataTransfer;
+    var href = ev.target.href;
+    if (href) {
+        dt.setData("text/uri-list", href);
+        dt.setData("text/plain", href);
+    }
+
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var url = ev.dataTransfer.getData("text/uri-list");
+    createBookMark(url);
+}
+
+function createBookMark(url) {
+    var bookmark = $('.attach .bookmark').clone();
+    bookmark.find('iframe').attr('src', url);
+    bookmark.find('.title span').text(url);
+    $('.area').append(bookmark);
+}
+</script>
+
+</html>
