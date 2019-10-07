@@ -74,6 +74,138 @@
     .transform li{
         padding-bottom: 30px;
     }
+    .cards-content {
+        position: relative;
+        width: 800px;
+        height: 480px;
+    }
+    .card-back, .card-front, .card-front-pic, .share-result {
+        position: absolute;
+        width: 300px;
+        height: 480px;
+        background-size: cover;
+        background-position: center;
+        border: 1px solid #cbcbcb;
+        -webkit-box-shadow: 2px 2px 5px #333333;
+        box-shadow: 2px 2px 5px #acaaaa;
+        border-radius: 4px;
+        backface-visibility: hidden;
+        background-repeat: no-repeat;
+        transition: all .8s ease-in-out;
+    }
+    .share-result {
+        top: 0;
+        right: 0;
+    }
+    .card-back {
+        transform: rotateY(0deg);
+        background-image: url(./static/plant2.png);
+    }
+    .show-back .card-back {
+        transform: rotateY(180deg);
+    }
+    .card-front-pic {
+        transform: rotateY(180deg);
+        background-image: url(./static/plant3.jpg);
+    }
+    .card-front {
+        left: -10000px;
+    }
+    .show-back .card-front-pic {
+        transform: rotateY(0);
+        background-image: url(./static/plant3.jpg);
+    }
+    .plant-pic {
+        background-image: url(./static/plant3.jpg);
+        width: 100%;
+        height: 300px;
+        background-size: cover;
+        background-position: center;
+    }
+    .plant-name {
+        position: absolute;
+        left: 50%;
+        top: 250px;
+        color: #fff;
+        transform: translateX(-50%);
+    }
+    .plant-desc {
+        padding: 20px;
+    }
+    .row {
+        display: flex;
+        font-size: 14px;
+        text-align: left;
+        justify-content: space-between;
+    }
+    .plant-user {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        width: 50px;
+        height: 50px;
+        background-image: url(./static/user.jpg);
+        background-size: cover;
+    }
+    .plant-code {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-image: url(./static/code.png);
+        background-size: cover;
+    }
+    .share-button {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        top: -65px;
+        border: 1px solid #d5d5d5;
+        box-shadow: 2px 2px 5px #acaaaa;
+        cursor: pointer;
+        width: 180px;
+    }
+    .share-happy {
+        display: initial;
+    }
+    .share-very-happy {
+        display: none;
+    }
+    .share-plant:hover .share-happy {
+        display: none;
+    }
+    .share-plant:hover .share-very-happy {
+        display: initial;
+    }
+    .plant-deco {
+        position: absolute;
+        top: 262px;
+        background: #fff;
+    }
+    .plant-deco-1, .plant-deco-4 {
+        width: 64px;
+        height: 1px;
+        border-radius: 2px;
+    }
+    .plant-deco-2, .plant-deco-3 {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        top: 260px;
+    }
+    .plant-deco-1 {
+        left: 0;
+    }
+    .plant-deco-2 {
+        left: 84px;
+    }
+    .plant-deco-3 {
+        right: 84px;
+    }
+    .plant-deco-4 {
+        right: 0;
+    }
     </style>
 </head>
 
@@ -111,13 +243,39 @@
                 </div>
             </div>
             <div class="swiper-slide">
-                <div style="position: absolute;left:0;top:0;width:45%;height:100%;background-color:#40bdd3">
-                    <p style="position:absolute;top:39%;left:25%;font-size:50px;color:#fff">Drag && Drop</p>
-                </div>
-                <div style="position: absolute;left:45%;width:55%">
-                    <ul class="catLi">
-                        <li><a target="_blank" href="https://html5demos.com/drag/">示例1：垃圾箱</a></li>
-                    </ul>
+                <div class="cards-content">
+                    <div class="card-back"></div>
+                    <div class="card-front-pic"></div>
+                    <div class="card-front">
+                        <div class="plant-pic"></div>
+                        <div class="plant-deco plant-deco-1"></div>
+                        <div class="plant-deco plant-deco-2"></div>
+                        <div class="plant-name">弗洛瑞安娜</div>
+                        <div class="plant-deco plant-deco-3"></div>
+                        <div class="plant-deco plant-deco-4"></div>
+                        <div class="plant-desc">
+                            <div class="row">
+                                <div class="row-title">分类</div>
+                                <div class="row-content">景天科拟石莲花属</div>
+                            </div>
+                            <div class="row">
+                                <div class="row-title">适宜温度</div>
+                                <div class="row-content">5~25℃</div>
+                            </div>
+                            <div class="row">
+                                <div class="row-title">浇水间隔</div>
+                                <div class="row-content">干透浇透-每8天</div>
+                            </div>
+                        </div>
+                        <div class="plant-user"></div>
+                        <div class="plant-code"></div>
+                    </div>
+                    <div class="share-button share-plant">
+                        <span class="share-happy">分享一下(✪ω✪)</span>
+                        <span class="share-very-happy">分享一下ヽ(≧∀≦)ﾉ</span>
+                    </div>
+                    <div class="share-button clear-plant">清空一下(눈‸눈)</div>
+                    <div class="share-result"></div>
                 </div>
             </div>
             <div class="swiper-slide">
@@ -150,6 +308,7 @@
     <!-- Swiper JS -->
     <script src='js/jquery.js'></script>
     <script src="./js/swiper.js"></script>
+    <script src="./js/html2canvas.min.js"></script>
     <!-- Initialize Swiper -->
     <script>
     var swiperH = new Swiper('.swiper-container-h', {
@@ -171,7 +330,7 @@
     <script>
     $(document).ready(function() {
         initAutoType();
-
+        bindEvent();
     });
     var initAutoType = function() {
         var types = ["FE Developer.", "UEDC.", "creativity."];
@@ -225,6 +384,31 @@
             words.html("&nbsp;" + tempWords);
         }, time);
     };
+
+    function bindEvent() {
+        bindCardClick();
+    }
+
+    function bindCardClick() {
+        $('.card-back, .card-front-pic').on('click', function() {
+            $(this).parent().toggleClass('show-back');
+        });
+
+        var shareBtn = $('.share-plant');
+        var target = $('.card-front');
+        var result = $('.share-result');
+        var clearBtn = $('.clear-plant');
+
+        shareBtn.on('click', function() {
+            html2canvas(target[0]).then(canvas => {
+                result.html(canvas);
+            });
+        });
+
+        clearBtn.on('click', function () {
+            result.html('');
+        })
+    }
     </script>
 </body>
 
